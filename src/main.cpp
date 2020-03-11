@@ -36,15 +36,23 @@ void loop()
   button2State = digitalRead(button2Pin);
   button3State = digitalRead(button3Pin);
 
-
+// if buttons of: input A, input B, not gate
+// are being pressed, light up corresponding LED
   manage_led(button3State,led3_Pin);
   manage_led(button2State,led2_Pin);
   manage_led(button1State,led1_Pin);
 
+  // button states act as input A and input B
   int get_state = logic_gate(1,button1State, button2State);
-  if(button3State == HIGH){
+  if(button3State == HIGH && (button1State == HIGH && button2State == HIGH)){
     get_state = 1 - get_state;
+  } 
+  if((button1State == LOW && button2State == LOW) && button3State == HIGH){
+    manage_led(1,led4_Pin);
   }
+
+
+  // if the output is true, turn on LED 4
   manage_led(get_state,led4_Pin);
 }
 
